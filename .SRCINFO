@@ -1,5 +1,5 @@
 pkgbase = kodi-nexus-mpp-git
-	pkgver = r62294.e75ba45eef3.457d9a5
+	pkgver = r62660.460db89710.0978cfe
 	pkgrel = 1
 	url = https://kodi.tv
 	arch = aarch64
@@ -71,6 +71,7 @@ pkgbase = kodi-nexus-mpp-git
 	noextract = libudfread-1.1.2.tar.gz
 	options = !lto
 	options = strip
+	options = !ccache
 	source = git+https://github.com/xbmc/xbmc.git#branch=Nexus
 	source = git+https://github.com/xbmc/inputstream.ffmpegdirect.git#branch=Nexus
 	source = git+https://github.com/xbmc/repo-binary-addons.git#branch=Nexus
@@ -137,14 +138,15 @@ pkgname = kodi-nexus-mpp-git
 	depends = waylandpp
 	depends = libinput
 	depends = pcre
-	depends = mpp-git
 	depends = flatbuffers
+	depends = mpp-git
+	depends = librga-multi
 	optdepends = afpfs-ng: Apple shares support
 	optdepends = bluez: Blutooth support
 	optdepends = python-pybluez: Bluetooth support
 	optdepends = pulseaudio: PulseAudio support
 	optdepends = upower: Display battery level
-	provides = kodi=r62294.e75ba45eef3.457d9a5
+	provides = kodi=r62660.460db89710.0978cfe
 	provides = kodi-x11
 	provides = kodi-wayland
 	provides = kodi-gbm
@@ -157,7 +159,7 @@ pkgname = kodi-nexus-mpp-git-eventclients
 	pkgdesc = Kodi Event Clients (Nexus branch)
 	optdepends = kodi: local machine eventclient use
 	optdepends = python: most eventclients are implemented in python
-	provides = kodi-eventclients=r62294.e75ba45eef3.457d9a5
+	provides = kodi-eventclients=r62660.460db89710.0978cfe
 	conflicts = kodi-eventclients
 
 pkgname = kodi-nexus-mpp-git-tools-texturepacker
@@ -166,14 +168,14 @@ pkgname = kodi-nexus-mpp-git-tools-texturepacker
 	depends = giflib
 	depends = libjpeg-turbo
 	depends = lzo
-	provides = kodi-tools-texturepacker=r62294.e75ba45eef3.457d9a5
+	provides = kodi-tools-texturepacker=r62660.460db89710.0978cfe
 	conflicts = kodi-tools-texturepacker
 
 pkgname = kodi-nexus-mpp-git-dev
 	pkgdesc = Kodi dev files (Nexus branch) with Rockchip MPP hardware acceleration
 	depends = kodi-nexus-mpp-git
-	provides = kodi-nexus-dev=r62294.e75ba45eef3.457d9a5
-	provides = kodi-dev=r62294.e75ba45eef3.457d9a5
+	provides = kodi-nexus-dev=r62660.460db89710.0978cfe
+	provides = kodi-dev=r62660.460db89710.0978cfe
 	conflicts = kodi-nexus-dev
 	conflicts = kodi-dev
 

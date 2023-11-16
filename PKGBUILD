@@ -23,7 +23,7 @@ _clangbuild=
 
 pkgbase=kodi-nexus-mpp-git
 pkgname=("$pkgbase" "$pkgbase-eventclients" "$pkgbase-tools-texturepacker" "$pkgbase-dev" "$pkgbase-ffmpegdirect")
-pkgver=r62294.e75ba45eef3.457d9a5
+pkgver=r62660.460db89710.0978cfe
 pkgrel=1
 arch=('aarch64' 'arm7f')
 url="https://kodi.tv"
@@ -44,7 +44,7 @@ makedepends=(
   # mpp
   'mpp-git' 'librga-multi'
 )
-options=(!lto strip)
+options=(!lto strip !ccache)
 
 [[ -n "$_clangbuild" ]] && makedepends+=('clang' 'lld' 'llvm')
 
@@ -215,7 +215,7 @@ package_kodi-nexus-mpp-git() {
     'mesa' 'python-pillow' 'python-pycryptodomex' 'python-simplejson'
     'shairplay' 'smbclient' 'sqlite' 'taglib' 'tinyxml'
     'libxrandr' 'libxkbcommon' 'waylandpp' 'libinput'
-    'pcre' 'mpp-git' 'flatbuffers'
+    'pcre' 'flatbuffers' 'mpp-git' 'librga-multi'
   )
   [[ -n "$_clangbuild" ]] && depends+=('glu')
 
