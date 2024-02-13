@@ -42,7 +42,7 @@ makedepends=(
   # gbm
   'libinput' 'flatbuffers'
   # mpp
-  'mpp-git' 'librga-multi'
+  'mpp' 'librga-multi'
 )
 options=(!lto strip !ccache)
 
