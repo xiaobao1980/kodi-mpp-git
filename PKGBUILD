@@ -39,7 +39,7 @@ optdepends=(
   'pipewire: PipeWire support'
   'upower: Display battery level'
 )
-provides=('kodi' 'kodi-nexus' 'kodi-mpp' 'kodi-nexus-mpp')
+provides=('kodi' 'kodi-nexus' 'kodi-mpp' 'kodi-nexus-mpp' 'kodi-dev' 'kodi-nexus-dev')
 conflicts=('kodi' 'kodi-dev' 'kodi-eventclients' 'kodi-tools-texturepacker')
 options=(!distcc !lto strip)
 
