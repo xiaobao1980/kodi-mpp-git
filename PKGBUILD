@@ -10,7 +10,7 @@ license=('GPL2')
 pkgdesc="Kodi Nexus with rockchip MPP based VPU decoding support (${_codename})"
 makedepends=(
   'afpfs-ng' 'bluez-libs' 'cmake' 'curl' 'dav1d' 'doxygen' 'git' 'glew'
-  'gperf' 'hicolor-icon-theme' 'java-runtime<21' 'libaacs' 'libass'
+  'gperf' 'hicolor-icon-theme' 'jre17-openjdk' 'libaacs' 'libass'
   'libbluray' 'libcdio' 'libcec' 'libgl' 'mariadb-libs' 'libmicrohttpd'
   'libmodplug' 'libmpeg2' 'libnfs' 'libplist' 'libpulse' 'libva'
   'libva-vdpau-driver' 'libxrandr' 'libxslt' 'lirc' 'lzo' 'mesa' 'nasm'
