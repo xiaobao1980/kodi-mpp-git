@@ -1,6 +1,6 @@
 pkgbase = kodi-mpp-git
-	pkgdesc = Kodi Nexus with rockchip MPP based VPU decoding support ()
-	pkgver = r169892.4b95737efad
+	pkgdesc = Kodi Omega with rockchip MPP based VPU decoding support (Omega)
+	pkgver = r175642.24278a28fb6
 	pkgrel = 1
 	url = https://kodi.tv
 	arch = arm7f
@@ -100,11 +100,11 @@ pkgbase = kodi-mpp-git
 	optdepends = pipewire: PipeWire support
 	optdepends = upower: Display battery level
 	provides = kodi
-	provides = kodi-nexus
+	provides = kodi-omega
 	provides = kodi-mpp
-	provides = kodi-nexus-mpp
+	provides = kodi-omega-mpp
 	provides = kodi-dev
-	provides = kodi-nexus-dev
+	provides = kodi-omega-dev
 	conflicts = kodi
 	conflicts = kodi-dev
 	conflicts = kodi-eventclients
@@ -120,8 +120,8 @@ pkgbase = kodi-mpp-git
 	options = !distcc
 	options = !lto
 	options = strip
-	source = git+https://github.com/xbmc/xbmc.git#branch=Nexus
-	source = git+https://github.com/hbiyik/ffmpeg-rockchip.git#branch=5.1.2
+	source = git+https://github.com/xbmc/xbmc.git#branch=Omega
+	source = git+https://github.com/nyanmisaka/ffmpeg-rockchip.git#branch=6.0
 	source = libdvdcss-1.4.3-Next-Nexus-Alpha2-2.tar.gz::https://github.com/xbmc/libdvdcss/archive/1.4.3-Next-Nexus-Alpha2-2.tar.gz
 	source = libdvdnav-6.1.1-Next-Nexus-Alpha2-2.tar.gz::https://github.com/xbmc/libdvdnav/archive/6.1.1-Next-Nexus-Alpha2-2.tar.gz
 	source = libdvdread-6.1.3-Next-Nexus-Alpha2-2.tar.gz::https://github.com/xbmc/libdvdread/archive/6.1.3-Next-Nexus-Alpha2-2.tar.gz
@@ -131,7 +131,6 @@ pkgbase = kodi-mpp-git
 	source = https://mirrors.kodi.tv/build-deps/sources/fstrcmp-0.7.D001.tar.gz
 	source = https://mirrors.kodi.tv/build-deps/sources/libudfread-1.1.2.tar.gz
 	source = 0001-ffmpeg-buildsys.patch
-	source = 0002-PR21248.patch
 	source = 0003-PR24431.patch
 	b2sums = SKIP
 	b2sums = SKIP
@@ -144,7 +143,6 @@ pkgbase = kodi-mpp-git
 	b2sums = a8b68fcb8613f0d30e5ff7b862b37408472162585ca71cdff328e3299ff50476fd265467bbd77b352b22bb88c590969044f74d91c5468475504568fd269fa69e
 	b2sums = 1801d84a0ca38410a78f23e7d44f37e6d53346753c853df2e7380d259ce1ae7f0c712825b95a5753ad0bc6360cfffe1888b9e7bc30da8b84549e0f1198248f61
 	b2sums = fbfdab0ec7aaa056c900c5cdd4652a165ea22585923a01ae132ff306f2203d8a18b5472fc56d53706aaaccae1e6e613e886c6ed5400a64a34e333547b732032e
-	b2sums = aa5ed3dd70277f4f87b73cef016ff9507a738fa0171efeaf8fe72f84287869ac2c0391cfbf202f44b76d1749016797b5a2de2ac96df6df73cf3837e7edb39911
-	b2sums = 83d77e51f159ab4a3834a8389f84fb5ec17792e94122162722f150ffce1d8dd7ca8f16b1782c7dfa49ecd9f2bc6739e61c066917972e99f87f19c3f798e90572
+	b2sums = 3d24d8a9d8ab047a97140f19bbbac6be2afc71ef087d92ed073a2fcc5065b9d583ea02dbd482532bcf5a65683da70b4c6c737715e98f7a81a1315ad61cf66095
 
 pkgname = kodi-mpp-git

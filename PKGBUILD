@@ -1,13 +1,17 @@
 # vim:set ts=2 sw=2 et:
 # Maintainer boogieeeee <boogiepop AT gmx DOT com>
 #
+_codename=Omega
+_gitname=xbmc
+_ff_branch="6.0"
+
 pkgname=kodi-mpp-git
 pkgver=r169892.4b95737efad
 pkgrel=1
 arch=('arm7f' 'aarch64')
 url="https://kodi.tv"
 license=('GPL2')
-pkgdesc="Kodi Nexus with rockchip MPP based VPU decoding support (${_codename})"
+pkgdesc="Kodi ${_codename} with rockchip MPP based VPU decoding support (${_codename})"
 makedepends=(
   'afpfs-ng' 'bluez-libs' 'cmake' 'curl' 'dav1d' 'doxygen' 'git' 'glew'
   'gperf' 'hicolor-icon-theme' 'jre17-openjdk' 'libaacs' 'libass'
@@ -39,18 +43,13 @@ optdepends=(
   'pipewire: PipeWire support'
   'upower: Display battery level'
 )
-provides=('kodi' 'kodi-nexus' 'kodi-mpp' 'kodi-nexus-mpp' 'kodi-dev' 'kodi-nexus-dev')
+provides=('kodi' 'kodi-omega' 'kodi-mpp' 'kodi-omega-mpp' 'kodi-dev' 'kodi-omega-dev')
 conflicts=('kodi' 'kodi-dev' 'kodi-eventclients' 'kodi-tools-texturepacker')
 options=(!distcc !lto strip)
-
-_gitname=xbmc
-_codename=Nexus
-_ff_branch="5.1.2"
 
 _libdvdcss_version="1.4.3-Next-Nexus-Alpha2-2"
 _libdvdnav_version="6.1.1-Next-Nexus-Alpha2-2"
 _libdvdread_version="6.1.3-Next-Nexus-Alpha2-2"
-_ffmpeg_version="4.4.1-Nexus-Alpha1"
 _fmt_version="9.1.0"
 _spdlog_version="1.10.0"
 _crossguid_version="ca1bf4b810e2d188d04cb6286f957008ee1b7681"
@@ -62,7 +61,7 @@ _cmake_release_type=Release
 # checkout individual binary addons and ffmpeg
 source=(
   "git+https://github.com/xbmc/xbmc.git#branch=${_codename}"
-  "git+https://github.com/hbiyik/ffmpeg-rockchip.git#branch=${_ff_branch}"
+  "git+https://github.com/nyanmisaka/ffmpeg-rockchip.git#branch=${_ff_branch}"
   "libdvdcss-$_libdvdcss_version.tar.gz::https://github.com/xbmc/libdvdcss/archive/$_libdvdcss_version.tar.gz"
   "libdvdnav-$_libdvdnav_version.tar.gz::https://github.com/xbmc/libdvdnav/archive/$_libdvdnav_version.tar.gz"
   "libdvdread-$_libdvdread_version.tar.gz::https://github.com/xbmc/libdvdread/archive/$_libdvdread_version.tar.gz"
@@ -72,7 +71,6 @@ source=(
   "https://mirrors.kodi.tv/build-deps/sources/fstrcmp-$_fstrcmp_version.tar.gz"
   "https://mirrors.kodi.tv/build-deps/sources/libudfread-$_libudfread_version.tar.gz"
   "0001-ffmpeg-buildsys.patch"
-  "0002-PR21248.patch"
   "0003-PR24431.patch"
 )
 
@@ -98,8 +96,8 @@ b2sums=('SKIP'
         'a8b68fcb8613f0d30e5ff7b862b37408472162585ca71cdff328e3299ff50476fd265467bbd77b352b22bb88c590969044f74d91c5468475504568fd269fa69e'
         '1801d84a0ca38410a78f23e7d44f37e6d53346753c853df2e7380d259ce1ae7f0c712825b95a5753ad0bc6360cfffe1888b9e7bc30da8b84549e0f1198248f61'
         'fbfdab0ec7aaa056c900c5cdd4652a165ea22585923a01ae132ff306f2203d8a18b5472fc56d53706aaaccae1e6e613e886c6ed5400a64a34e333547b732032e'
-        'aa5ed3dd70277f4f87b73cef016ff9507a738fa0171efeaf8fe72f84287869ac2c0391cfbf202f44b76d1749016797b5a2de2ac96df6df73cf3837e7edb39911'
-        '83d77e51f159ab4a3834a8389f84fb5ec17792e94122162722f150ffce1d8dd7ca8f16b1782c7dfa49ecd9f2bc6739e61c066917972e99f87f19c3f798e90572')
+        '3d24d8a9d8ab047a97140f19bbbac6be2afc71ef087d92ed073a2fcc5065b9d583ea02dbd482532bcf5a65683da70b4c6c737715e98f7a81a1315ad61cf66095')
+
 
 pkgver() {
   local _revnum=0
@@ -123,7 +121,6 @@ prepare() {
   cd "$_gitname"
   rm -rf system/certs # remove not needed cacert
   patch -p1 -N -i ../0001-ffmpeg-buildsys.patch
-  patch -p1 -N -i ../0002-PR21248.patch
   patch -p1 -N -i ../0003-PR24431.patch
 }
 
@@ -137,7 +134,7 @@ build() {
     -DCMAKE_INSTALL_LIBDIR=/usr/lib
     -DUSE_LTO=$(nproc)
     -DVERBOSE=ON
-    -DENABLE_LDGOLD=OFF
+    -DENABLE_LDGOLD=ON
     -DENABLE_EVENTCLIENTS=ON
     -DENABLE_INTERNAL_FFMPEG=ON
     -DENABLE_INTERNAL_FMT=ON

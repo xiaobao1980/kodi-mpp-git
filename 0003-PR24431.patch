@@ -1,4 +1,4 @@
-From 498f94d9f2cb724dcdeb12beeb095d560314b41a Mon Sep 17 00:00:00 2001
+From 53c8b32ff65fdc86a38514a10ddbd132a97fc896 Mon Sep 17 00:00:00 2001
 From: boogie <boogiepop@gmx.com>
 Date: Sat, 13 Jan 2024 19:39:52 +0100
 Subject: [PATCH 1/2] windowing/gbm: Dynamic plane selection
@@ -11,13 +11,13 @@ plane if zpos is supported and not immutable by the planes.
  xbmc/windowing/gbm/drm/DRMAtomic.cpp          | 43 +++++++++++++++++++
  xbmc/windowing/gbm/drm/DRMAtomic.h            |  1 +
  xbmc/windowing/gbm/drm/DRMObject.cpp          | 30 +++++++++++++
- xbmc/windowing/gbm/drm/DRMObject.h            |  4 ++
+ xbmc/windowing/gbm/drm/DRMObject.h            |  2 +
  xbmc/windowing/gbm/drm/DRMUtils.cpp           | 21 +++++----
- xbmc/windowing/gbm/drm/DRMUtils.h             |  5 ++-
- 7 files changed, 96 insertions(+), 12 deletions(-)
+ xbmc/windowing/gbm/drm/DRMUtils.h             |  4 +-
+ 7 files changed, 93 insertions(+), 12 deletions(-)
 
 diff --git a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp
-index a07b4f7440..04d42c0982 100644
+index a07b4f744048e..04d42c09828b0 100644
 --- a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp
 +++ b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/RendererDRMPRIME.cpp
 @@ -77,9 +77,11 @@ CBaseRenderer* CRendererDRMPRIME::Create(CVideoBuffer* buffer)
@@ -34,10 +34,10 @@ index a07b4f7440..04d42c0982 100644
    }
  
 diff --git a/xbmc/windowing/gbm/drm/DRMAtomic.cpp b/xbmc/windowing/gbm/drm/DRMAtomic.cpp
-index 5d61a699d4..04f4c57c42 100644
+index ff7f137d60e65..467c23b3fbe14 100644
 --- a/xbmc/windowing/gbm/drm/DRMAtomic.cpp
 +++ b/xbmc/windowing/gbm/drm/DRMAtomic.cpp
-@@ -63,6 +63,49 @@ bool CDRMAtomic::SetScalingFilter(CDRMObject* object, const char* name, const ch
+@@ -61,6 +61,49 @@ bool CDRMAtomic::SetScalingFilter(CDRMObject* object, const char* name, const ch
    return true;
  }
  
@@ -88,10 +88,10 @@ index 5d61a699d4..04f4c57c42 100644
  {
    uint32_t blob_id;
 diff --git a/xbmc/windowing/gbm/drm/DRMAtomic.h b/xbmc/windowing/gbm/drm/DRMAtomic.h
-index ca2cd9a1d0..50fb44f2dd 100644
+index 6b196575878fe..ee6314ffafbc0 100644
 --- a/xbmc/windowing/gbm/drm/DRMAtomic.h
 +++ b/xbmc/windowing/gbm/drm/DRMAtomic.h
-@@ -33,6 +33,7 @@ public:
+@@ -33,6 +33,7 @@ class CDRMAtomic : public CDRMUtils
    bool InitDrm() override;
    void DestroyDrm() override;
    bool AddProperty(CDRMObject* object, const char* name, uint64_t value);
@@ -100,11 +100,11 @@ index ca2cd9a1d0..50fb44f2dd 100644
    bool DisplayHardwareScalingEnabled();
  
 diff --git a/xbmc/windowing/gbm/drm/DRMObject.cpp b/xbmc/windowing/gbm/drm/DRMObject.cpp
-index 599bb61cd0..43f95335cb 100644
+index 5ffce40fa31df..2fafdc7b9546e 100644
 --- a/xbmc/windowing/gbm/drm/DRMObject.cpp
 +++ b/xbmc/windowing/gbm/drm/DRMObject.cpp
-@@ -106,6 +106,25 @@ std::tuple<bool, uint64_t> CDRMObject::GetPropertyValue(const std::string& name,
-   return std::make_tuple(false, 0);
+@@ -105,6 +105,25 @@ std::optional<uint64_t> CDRMObject::GetPropertyValue(std::string_view name,
+   return {};
  }
  
 +std::optional<uint64_t*> CDRMObject::GetRangePropertyLimits(std::string_view name)
@@ -129,7 +129,7 @@ index 599bb61cd0..43f95335cb 100644
  bool CDRMObject::SetProperty(const std::string& name, uint64_t value)
  {
    auto property = std::find_if(m_propsInfo.begin(), m_propsInfo.end(),
-@@ -131,3 +150,14 @@ bool CDRMObject::SupportsProperty(const std::string& name)
+@@ -130,3 +149,14 @@ bool CDRMObject::SupportsProperty(const std::string& name)
  
    return false;
  }
@@ -145,19 +145,10 @@ index 599bb61cd0..43f95335cb 100644
 +  return static_cast<bool>(drm_property_type_is(property->get(), DRM_MODE_PROP_IMMUTABLE));
 +}
 diff --git a/xbmc/windowing/gbm/drm/DRMObject.h b/xbmc/windowing/gbm/drm/DRMObject.h
-index e2ae32652c..88e11c2b30 100644
+index c4200b1a864dc..bee880de20ebd 100644
 --- a/xbmc/windowing/gbm/drm/DRMObject.h
 +++ b/xbmc/windowing/gbm/drm/DRMObject.h
-@@ -11,6 +11,8 @@
- #include <cstddef>
- #include <cstdint>
- #include <memory>
-+#include <optional>
-+#include <string_view>
- #include <vector>
- 
- #include <xf86drmMode.h>
-@@ -39,6 +41,8 @@ public:
+@@ -40,6 +40,8 @@ class CDRMObject
  
    bool SetProperty(const std::string& name, uint64_t value);
    bool SupportsProperty(const std::string& name);
@@ -167,7 +158,7 @@ index e2ae32652c..88e11c2b30 100644
  protected:
    explicit CDRMObject(int fd);
 diff --git a/xbmc/windowing/gbm/drm/DRMUtils.cpp b/xbmc/windowing/gbm/drm/DRMUtils.cpp
-index 6b61403a33..ccc28f9371 100644
+index 3dd4ee97831d3..e3aab14d3a39b 100644
 --- a/xbmc/windowing/gbm/drm/DRMUtils.cpp
 +++ b/xbmc/windowing/gbm/drm/DRMUtils.cpp
 @@ -181,20 +181,23 @@ bool CDRMUtils::FindPreferredMode()
@@ -212,21 +203,20 @@ index 6b61403a33..ccc28f9371 100644
  
    if (!FindPreferredMode())
 diff --git a/xbmc/windowing/gbm/drm/DRMUtils.h b/xbmc/windowing/gbm/drm/DRMUtils.h
-index 5327e35570..9c01e54fb0 100644
+index f92f716fc4f3b..fcf9d772e335c 100644
 --- a/xbmc/windowing/gbm/drm/DRMUtils.h
 +++ b/xbmc/windowing/gbm/drm/DRMUtils.h
-@@ -62,6 +62,8 @@ public:
-   static uint32_t FourCCWithAlpha(uint32_t fourcc);
+@@ -64,6 +64,7 @@ class CDRMUtils
    static uint32_t FourCCWithoutAlpha(uint32_t fourcc);
  
+   void SetInFenceFd(int fd) { m_inFenceFd = fd; }
 +  bool FindPlanes(uint32_t format, uint64_t modifier);
-+
- protected:
-   bool OpenDrm(bool needConnector);
-   drm_fb* DrmFbGetFromBo(struct gbm_bo *bo);
-@@ -78,13 +80,13 @@ protected:
-   int m_width = 0;
-   int m_height = 0;
+   int TakeOutFenceFd()
+   {
+     int fd{-1};
+@@ -89,13 +90,13 @@ class CDRMUtils
+   int m_inFenceFd{-1};
+   int m_outFenceFd{-1};
  
 +  std::vector<std::unique_ptr<CDRMCrtc>> m_crtcs;
    std::vector<std::unique_ptr<CDRMPlane>> m_planes;
@@ -239,7 +229,7 @@ index 5327e35570..9c01e54fb0 100644
    bool FindPreferredMode();
    bool RestoreOriginalMode();
    RESOLUTION_INFO GetResolutionInfo(drmModeModeInfoPtr mode);
-@@ -95,7 +97,6 @@ private:
+@@ -106,7 +107,6 @@ class CDRMUtils
  
    std::vector<std::unique_ptr<CDRMConnector>> m_connectors;
    std::vector<std::unique_ptr<CDRMEncoder>> m_encoders;
@@ -247,11 +237,8 @@ index 5327e35570..9c01e54fb0 100644
  };
  
  }
--- 
-2.43.0
 
-
-From 94e2f8b79e18ea3595f0b1bae1ee840913778eb9 Mon Sep 17 00:00:00 2001
+From a9c87ec69cce3fc10bd6162d402e2775554f58e9 Mon Sep 17 00:00:00 2001
 From: boogie <boogiepop@gmx.com>
 Date: Sat, 13 Jan 2024 21:48:53 +0100
 Subject: [PATCH 2/2] VideoLayerBridgeDRMPRIME: Use crop fields to render the
@@ -271,10 +258,10 @@ to pass picture offsets.
  5 files changed, 25 insertions(+), 5 deletions(-)
 
 diff --git a/xbmc/cores/VideoPlayer/Buffers/VideoBufferDRMPRIME.h b/xbmc/cores/VideoPlayer/Buffers/VideoBufferDRMPRIME.h
-index e77f75b58b..f85f489a5d 100644
+index b83ee8ca68a5f..495c42890925b 100644
 --- a/xbmc/cores/VideoPlayer/Buffers/VideoBufferDRMPRIME.h
 +++ b/xbmc/cores/VideoPlayer/Buffers/VideoBufferDRMPRIME.h
-@@ -52,6 +52,8 @@ public:
+@@ -54,6 +54,8 @@ class CVideoBufferDRMPRIME : public CVideoBuffer
    virtual const VideoPicture& GetPicture() const { return m_picture; }
    virtual uint32_t GetWidth() const { return GetPicture().iWidth; }
    virtual uint32_t GetHeight() const { return GetPicture().iHeight; }
@@ -284,7 +271,7 @@ index e77f75b58b..f85f489a5d 100644
    virtual AVDRMFrameDescriptor* GetDescriptor() const = 0;
    virtual bool IsValid() const { return true; }
 diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodec.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodec.cpp
-index 5e025945f5..8cf275b4e2 100644
+index 0d986e9154093..abfc937f5a0d7 100644
 --- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodec.cpp
 +++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodec.cpp
 @@ -56,6 +56,8 @@ void VideoPicture::Reset()
@@ -297,10 +284,10 @@ index 5e025945f5..8cf275b4e2 100644
    iDisplayHeight = 0;
  }
 diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodec.h b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodec.h
-index b23fd48383..f4ff9aa482 100644
+index 3c55a7b06c5e7..7a4b0ef3ecbe2 100644
 --- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodec.h
 +++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodec.h
-@@ -72,6 +72,8 @@ public:
+@@ -73,6 +73,8 @@ struct VideoPicture
  
    unsigned int iWidth;
    unsigned int iHeight;
@@ -310,10 +297,10 @@ index b23fd48383..f4ff9aa482 100644
    unsigned int iDisplayHeight;          //< height of the picture without black bars
  
 diff --git a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecDRMPRIME.cpp b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecDRMPRIME.cpp
-index 80ca60290c..6d0ad08c53 100644
+index eb2943bb8ccb9..75ec720346ae7 100644
 --- a/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecDRMPRIME.cpp
 +++ b/xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecDRMPRIME.cpp
-@@ -468,6 +468,19 @@ void CDVDVideoCodecDRMPRIME::SetPictureParams(VideoPicture* pVideoPicture)
+@@ -506,6 +506,19 @@ void CDVDVideoCodecDRMPRIME::SetPictureParams(VideoPicture* pVideoPicture)
    pVideoPicture->iWidth = m_pFrame->width;
    pVideoPicture->iHeight = m_pFrame->height;
  
@@ -334,7 +321,7 @@ index 80ca60290c..6d0ad08c53 100644
    AVRational pixel_aspect = m_pFrame->sample_aspect_ratio;
    if (pixel_aspect.num)
 diff --git a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/VideoLayerBridgeDRMPRIME.cpp b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/VideoLayerBridgeDRMPRIME.cpp
-index 4b8ee5afbb..a81bd1cdf1 100644
+index 34d1ab6235591..33db29b1408c2 100644
 --- a/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/VideoLayerBridgeDRMPRIME.cpp
 +++ b/xbmc/cores/VideoPlayer/VideoRenderers/HwDecRender/VideoLayerBridgeDRMPRIME.cpp
 @@ -118,9 +118,10 @@ bool CVideoLayerBridgeDRMPRIME::Map(CVideoBufferDRMPRIME* buffer)
@@ -362,6 +349,3 @@ index 4b8ee5afbb..a81bd1cdf1 100644
    m_DRM->AddProperty(plane, "SRC_W", buffer->GetWidth() << 16);
    m_DRM->AddProperty(plane, "SRC_H", buffer->GetHeight() << 16);
    m_DRM->AddProperty(plane, "CRTC_X", static_cast<int32_t>(destRect.x1) & ~1);
--- 
-2.43.0
-
