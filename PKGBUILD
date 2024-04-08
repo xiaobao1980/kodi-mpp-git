@@ -19,10 +19,10 @@ makedepends=(
   'libmodplug' 'libmpeg2' 'libnfs' 'libplist' 'libpulse' 'libva'
   'libva-vdpau-driver' 'libxrandr' 'libxslt' 'lirc' 'lzo' 'mesa' 'nasm'
   'pcre' 'python-pycryptodomex' 'python-pillow' 'python-pybluez'
-  'python-simplejson' 'shairplay' 'smbclient' 'tinyxml' 'swig'
+  'python-simplejson' 'shairplay' 'smbclient' 'tinyxml'  'tinyxml2' 'swig'
   'upower' 'giflib' 'ghostscript' 'meson' 'gtest' 'graphviz'
   'wayland-protocols' 'waylandpp' 'libxkbcommon'
-  'libinput' 'flatbuffers'
+  'libinput' 'flatbuffers' 'rapidjson'
   'mpp'
 )
 depends=(
@@ -30,7 +30,7 @@ depends=(
   'lcms2' 'libass' 'libbluray' 'libcdio' 'libcec' 'libmicrohttpd' 'libnfs'
   'libplist' 'libpulse' 'libva' 'libvdpau' 'libxslt' 'lirc' 'mariadb-libs'
   'mesa' 'python-pillow' 'python-pycryptodomex' 'python-simplejson'
-  'shairplay' 'smbclient' 'sqlite' 'tinyxml'
+  'shairplay' 'smbclient' 'sqlite' 'tinyxml' 'tinyxml2'
   'libxrandr' 'libxkbcommon' 'waylandpp' 'libinput'
   'pcre' 'flatbuffers' 'mpp'
 )
