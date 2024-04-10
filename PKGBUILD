@@ -6,7 +6,7 @@ _gitname=xbmc
 _ff_branch="6.0"
 
 pkgname=kodi-mpp-git
-pkgver=r169892.4b95737efad
+pkgver=r175642.24278a28fb
 pkgrel=1
 arch=('arm7f' 'aarch64')
 url="https://kodi.tv"
@@ -32,7 +32,7 @@ depends=(
   'mesa' 'python-pillow' 'python-pycryptodomex' 'python-simplejson'
   'shairplay' 'smbclient' 'sqlite' 'tinyxml' 'tinyxml2'
   'libxrandr' 'libxkbcommon' 'waylandpp' 'libinput'
-  'pcre' 'flatbuffers' 'mpp'
+  'pcre' 'flatbuffers' 'mpp' 'libdisplay-info'
 )
 
 optdepends=(

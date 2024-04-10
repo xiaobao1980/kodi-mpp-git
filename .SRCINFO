@@ -1,6 +1,6 @@
 pkgbase = kodi-mpp-git
 	pkgdesc = Kodi Omega with rockchip MPP based VPU decoding support (Omega)
-	pkgver = r175642.24278a28fb6
+	pkgver = r175642.24278a28fb
 	pkgrel = 1
 	url = https://kodi.tv
 	arch = arm7f
@@ -96,6 +96,7 @@ pkgbase = kodi-mpp-git
 	depends = pcre
 	depends = flatbuffers
 	depends = mpp
+	depends = libdisplay-info
 	optdepends = afpfs-ng: Apple shares support
 	optdepends = bluez: Blutooth support
 	optdepends = python-pybluez: Bluetooth support
