@@ -73,6 +73,7 @@ source=(
   "0001-ffmpeg-buildsys.patch"
   "0002-groovy-wildcard.patch"
   "0003-PR24431.patch"
+  "0004-distutils.patch"
 )
 
 noextract=(
@@ -98,7 +99,8 @@ b2sums=('SKIP'
         '1801d84a0ca38410a78f23e7d44f37e6d53346753c853df2e7380d259ce1ae7f0c712825b95a5753ad0bc6360cfffe1888b9e7bc30da8b84549e0f1198248f61'
         'fbfdab0ec7aaa056c900c5cdd4652a165ea22585923a01ae132ff306f2203d8a18b5472fc56d53706aaaccae1e6e613e886c6ed5400a64a34e333547b732032e'
         "SKIP"
-        '3d24d8a9d8ab047a97140f19bbbac6be2afc71ef087d92ed073a2fcc5065b9d583ea02dbd482532bcf5a65683da70b4c6c737715e98f7a81a1315ad61cf66095')
+        '3d24d8a9d8ab047a97140f19bbbac6be2afc71ef087d92ed073a2fcc5065b9d583ea02dbd482532bcf5a65683da70b4c6c737715e98f7a81a1315ad61cf66095'
+        "SKIP")
 
 
 pkgver() {
@@ -126,6 +128,7 @@ prepare() {
   # https://github.com/xbmc/xbmc/commit/d6bc920e056baad7782f47b86cba85d1336bb134
   patch -p1 -N -i ../0002-groovy-wildcard.patch
   patch -p1 -N -i ../0003-PR24431.patch
+  patch -p1 -N -i ../0004-distutils.patch
 }
 
 build() {
