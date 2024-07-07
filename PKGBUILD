@@ -81,6 +81,8 @@ source=(
   "0002-groovy-wildcard.patch"
   "0003-PR24431.patch"
   "0004-distutils.patch"
+  "1001-ffmpeg.patch::https://github.com/FFmpeg/FFmpeg/commit/43b417d516b0fabbec1f02120d948f636b8a018e.patch"
+  "1002-ffmpeg.patch::https://github.com/FFmpeg/FFmpeg/commit/06c2a2c425f22e7dba5cad909737a631cc676e3f.patch"
 )
 
 noextract=(
@@ -105,7 +107,8 @@ b2sums=('SKIP' 'SKIP'
         'fbfdab0ec7aaa056c900c5cdd4652a165ea22585923a01ae132ff306f2203d8a18b5472fc56d53706aaaccae1e6e613e886c6ed5400a64a34e333547b732032e'
         '0cfc1f92a7e7bee838a101d0ab1dc51c08fd06289ef812bfada99fce5688bf5238b9a8023ffff24067ca68c2eb1c567596c0da8e19edf746cf5512bdadbff044'
         '3d24d8a9d8ab047a97140f19bbbac6be2afc71ef087d92ed073a2fcc5065b9d583ea02dbd482532bcf5a65683da70b4c6c737715e98f7a81a1315ad61cf66095'
-        '67a1265dba5f3f44f62423a13123da8259ae631c81598360f6f7d5ee3f6faaab10baf39864de405c3fe09504b0c6c92cf6dffa587cce9fe35b9c45bf131e7ca7')
+        '67a1265dba5f3f44f62423a13123da8259ae631c81598360f6f7d5ee3f6faaab10baf39864de405c3fe09504b0c6c92cf6dffa587cce9fe35b9c45bf131e7ca7'
+        'SKIP' 'SKIP')
 
 pkgver() {
   local _revnum=0
@@ -133,6 +136,10 @@ prepare() {
   patch -p1 -N -i ../0002-groovy-wildcard.patch
   patch -p1 -N -i ../0003-PR24431.patch
   patch -p1 -N -i ../0004-distutils.patch
+
+  cd "$srcdir/ffmpeg-rockchip"
+  patch -p1 -N -i ../1001-ffmpeg.patch
+  patch -p1 -N -i ../1002-ffmpeg.patch
 }
 
 build() {
