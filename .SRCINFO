@@ -148,6 +148,8 @@ pkgbase = kodi-mpp-git
 	source = 0002-groovy-wildcard.patch
 	source = 0003-PR24431.patch
 	source = 0004-distutils.patch
+	source = 1001-ffmpeg.patch::https://github.com/FFmpeg/FFmpeg/commit/43b417d516b0fabbec1f02120d948f636b8a018e.patch
+	source = 1002-ffmpeg.patch::https://github.com/FFmpeg/FFmpeg/commit/06c2a2c425f22e7dba5cad909737a631cc676e3f.patch
 	b2sums = SKIP
 	b2sums = SKIP
 	b2sums = 2f503d3ab767094958f7ec10b4ad11ffd02665deee571c8f3c739bef5fc7e2ff84babc5a3fdee638dc095f896b72fe3ce65e6b688674cb5f7b7b77190992688c
@@ -161,5 +163,7 @@ pkgbase = kodi-mpp-git
 	b2sums = 0cfc1f92a7e7bee838a101d0ab1dc51c08fd06289ef812bfada99fce5688bf5238b9a8023ffff24067ca68c2eb1c567596c0da8e19edf746cf5512bdadbff044
 	b2sums = 3d24d8a9d8ab047a97140f19bbbac6be2afc71ef087d92ed073a2fcc5065b9d583ea02dbd482532bcf5a65683da70b4c6c737715e98f7a81a1315ad61cf66095
 	b2sums = 67a1265dba5f3f44f62423a13123da8259ae631c81598360f6f7d5ee3f6faaab10baf39864de405c3fe09504b0c6c92cf6dffa587cce9fe35b9c45bf131e7ca7
+	b2sums = SKIP
+	b2sums = SKIP
 
 pkgname = kodi-mpp-git
