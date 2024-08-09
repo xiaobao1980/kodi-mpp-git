@@ -6,7 +6,7 @@ _gitname=xbmc
 _ff_branch="6.0"
 
 pkgname=kodi-mpp-git
-pkgver=r175775.6186114acf
+pkgver=r175813.ec4eb1979b
 pkgrel=1
 arch=('armv7h' 'aarch64')
 url="https://kodi.tv"
@@ -77,12 +77,13 @@ source=(
   "kodi-fstrcmp-$_fstrcmp_version.tar.gz::https://mirrors.kodi.tv/build-deps/sources/fstrcmp-$_fstrcmp_version.tar.gz"
   "kodi-flatbuffers-$_flatbuffers_version.tar.gz::https://mirrors.kodi.tv/build-deps/sources/flatbuffers-$_flatbuffers_version.tar.gz"
   "kodi-libudfread-$_libudfread_version.tar.gz::https://mirrors.kodi.tv/build-deps/sources/libudfread-$_libudfread_version.tar.gz"
-  "0001-ffmpeg-buildsys.patch"
-  "0002-groovy-wildcard.patch"
-  "0003-PR24431.patch"
-  "0004-distutils.patch"
-  "1001-ffmpeg.patch::https://github.com/FFmpeg/FFmpeg/commit/43b417d516b0fabbec1f02120d948f636b8a018e.patch"
-  "1002-ffmpeg.patch::https://github.com/FFmpeg/FFmpeg/commit/06c2a2c425f22e7dba5cad909737a631cc676e3f.patch"
+  "kodi-001-ffmpeg-buildsys.patch" # use ffmpeg-rockchip
+  "kodi-002-dynamic-selection-of-drmplanes-on-gbm.patch::https://patch-diff.githubusercontent.com/raw/xbmc/xbmc/pull/24431.patch"
+  "kodi-003-distutils-eol-in-py312.patch::https://patch-diff.githubusercontent.com/raw/xbmc/xbmc/pull/25211.patch"
+  "kodi-004-groovy-wildcards-fix.patch::https://patch-diff.githubusercontent.com/raw/xbmc/xbmc/pull/25212.patch"
+  "kodi-005-egl-async-rendering-fixes.patch::https://patch-diff.githubusercontent.com/raw/xbmc/xbmc/pull/25588.patch"
+  "ffmpeg-001-avcodec-nvenc-stop-using-long-deprecated-format-specifiers.patch::https://github.com/FFmpeg/FFmpeg/commit/43b417d516b0fabbec1f02120d948f636b8a018e.patch"
+  "ffmpeg-002-avcodec-nvenc-support-sdk122-bit-depth-api.patch::https://github.com/FFmpeg/FFmpeg/commit/06c2a2c425f22e7dba5cad909737a631cc676e3f.patch"
 )
 
 noextract=(
@@ -96,7 +97,8 @@ noextract=(
   "kodi-libudfread-$_libudfread_version.tar.gz"
 )
 
-b2sums=('SKIP' 'SKIP'
+b2sums=('SKIP'
+        'SKIP'
         '2f503d3ab767094958f7ec10b4ad11ffd02665deee571c8f3c739bef5fc7e2ff84babc5a3fdee638dc095f896b72fe3ce65e6b688674cb5f7b7b77190992688c'
         'db4d05836d8fbb3637ae50bdbfc0e4b612ee6b3be24addfea94ce772c3bf28d58b63a3f252d6f9f016f72f8cbb841cc1820b091226b136f4c4664385a32da73c'
         'c94feb5a03a12efa5b7767965118d2500a088299ea36f3b82e46d157e45893e6b04503cb50f179ca681bac914457607fab26acfa6e304752b355c407578572d1'
@@ -105,10 +107,12 @@ b2sums=('SKIP' 'SKIP'
         'be5e3c8ea81ce4b6f2e2c1b2f22e1172434c435f096fa7dade060578c506cff0310e3e2ef0627e26ce2be44f740652eb9a8e1b63578c18f430f7925820f04e66'
         '1801d84a0ca38410a78f23e7d44f37e6d53346753c853df2e7380d259ce1ae7f0c712825b95a5753ad0bc6360cfffe1888b9e7bc30da8b84549e0f1198248f61'
         'fbfdab0ec7aaa056c900c5cdd4652a165ea22585923a01ae132ff306f2203d8a18b5472fc56d53706aaaccae1e6e613e886c6ed5400a64a34e333547b732032e'
-        '0cfc1f92a7e7bee838a101d0ab1dc51c08fd06289ef812bfada99fce5688bf5238b9a8023ffff24067ca68c2eb1c567596c0da8e19edf746cf5512bdadbff044'
-        '3d24d8a9d8ab047a97140f19bbbac6be2afc71ef087d92ed073a2fcc5065b9d583ea02dbd482532bcf5a65683da70b4c6c737715e98f7a81a1315ad61cf66095'
-        '67a1265dba5f3f44f62423a13123da8259ae631c81598360f6f7d5ee3f6faaab10baf39864de405c3fe09504b0c6c92cf6dffa587cce9fe35b9c45bf131e7ca7'
-        'SKIP' 'SKIP')
+        'ee65176142cc81abcbd270eee03398117088273284f989d182d6d1bd56abdaa54467be16046b522c32792fe137df06867874588ebd6bf0ad500dc5d63384a9bd'
+        '15292044e61769eaf4405d93d80000713c0062f200b02238facbdeea1c978aa83fb121fc0b74f109a9851911d3e659ba12ff8ed245dc52c351fd22a307e1cb90'
+        '4ab9140aea57a898388584e0d4ecac9b8a1cb3c86d68549c3ab5d3bdcb817687147c23295811d3863eacdbf929442fcbc10a3692934095038d13dd28c40a192c'
+        '025724c91f40fe6c02a69e98fe6a2dad840b612378a3b9751429c221e7d693d4d81b314425564e70c45a00cdf0d731357ebd6c525a969259f9d7f29c23ba064e'
+        'c8dfbed01442b1173c94ee7f7c7bda59802e86359be7dfcf52e25a05f245deac1ed8f3ca8e43650bef033cbd44c3ac15d32c191d913227da497187fcbbefa954'
+        '044b1c13336a3cec263c17aa6438cd7b8e19ce328e9c8127d3c6d9dcb8dcfacefde713e47b35217c06826f87d00954b5e0a722fb4ab744c625e3d210d418bd77')
 
 pkgver() {
   local _revnum=0
@@ -129,17 +133,18 @@ prepare() {
   mkdir -p "$srcdir/kodi-build"
   mkdir -p "$srcdir/tmp"
 
-  cd "$_gitname"
+  cd "$srcdir/$_gitname"
   rm -rf system/certs # remove not needed cacert
-  patch -p1 -N -i ../0001-ffmpeg-buildsys.patch
-  # https://github.com/xbmc/xbmc/commit/d6bc920e056baad7782f47b86cba85d1336bb134
-  patch -p1 -N -i ../0002-groovy-wildcard.patch
-  patch -p1 -N -i ../0003-PR24431.patch
-  patch -p1 -N -i ../0004-distutils.patch
+  for p in ../kodi-*.patch; do
+    echo "Applying Kodi patch: ${p}"
+    patch -p1 -N -i $p
+  done
 
   cd "$srcdir/ffmpeg-rockchip"
-  patch -p1 -N -i ../1001-ffmpeg.patch
-  patch -p1 -N -i ../1002-ffmpeg.patch
+  for p in ../ffmpeg-*.patch; do
+    echo "Applying FFMpeg patch: ${p}"
+    patch -p1 -N -i $p
+  done
 }
 
 build() {
