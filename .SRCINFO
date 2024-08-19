@@ -1,6 +1,6 @@
 pkgbase = kodi-mpp-git
 	pkgdesc = Kodi Omega with rockchip MPP based VPU decoding support (Omega)
-	pkgver = r175823.dc7f50b.patch.1.6859877547
+	pkgver = r175823.57b1b2a0db.patch.1.6859877547
 	pkgrel = 1
 	url = https://kodi.tv
 	arch = armv7h

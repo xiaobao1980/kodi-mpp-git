@@ -6,7 +6,7 @@ _gitname=xbmc
 _ff_branch="6.0"
 
 pkgname=kodi-mpp-git
-pkgver=r175823.dc7f50b.patch.1.6859877547
+pkgver=r175823.57b1b2a0db.patch.1.6859877547
 pkgrel=1
 arch=('armv7h' 'aarch64')
 url="https://kodi.tv"
@@ -127,6 +127,8 @@ pkgver() {
 
   _revnum=$(($_kcommits + $_fcommits))
 
+  local _commit_id="$(git rev-parse --short HEAD)"
+
   cd "${srcdir}"
   local _patchlevel=1 # increase this if the _pr_patch set changes
   local _pr_patch _timestamp_patch _timestamp_hunk _timestamp_all=0
@@ -149,7 +151,7 @@ pkgver() {
     )
     _timestamp_all=$(( "${_timestamp_all}" + "${_timestamp_patch}" ))
   done
-  printf "r%s.%s.patch.%u.%u" $_revnum "$(git rev-parse --short HEAD)" "${_patchlevel}" "${_timestamp_all}"
+  printf "r%u.%s.patch.%u.%u" "${_revnum}" "${_commit_id}" "${_patchlevel}" "${_timestamp_all}"
 }
 
 prepare() {
